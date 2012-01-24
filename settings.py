@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Django settings for basic pinax project.
 
 import os.path
 import posixpath
@@ -9,7 +8,6 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-# tells Pinax to serve media through the staticfiles app.
 SERVE_MEDIA = DEBUG
 
 # django-compressor is turned off by default due to deployment overhead for
@@ -167,7 +165,6 @@ INSTALLED_APPS = [
     "idios",
     "metron",
     
-    # Pinax
     "pinax.apps.account",
     "pinax.apps.signup_codes",
     
