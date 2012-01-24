@@ -1,0 +1,44 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block body_base %}
+    <div class="container">
+        {% include "_messages.html" %}
+        <div class="hero-unit">
+        {% block banner %}
+            <h1>Welcome to RIPLFX</h1>
+            <p>Ever felt like you're not getting the most out of the Harvard community?
+            Use RIPLFX to find people from across the university and expand your network.</p>
+            <p><a class="btn primary large">Learn more &raquo;</a></p>
+        {% endblock %}
+        </div>
+
+        <div class="row">
+            <div class="span5">
+            {% block column-1 %}
+                <h2>What?</h2>
+                <p>Ever felt like you're not getting the most out of the Harvard community?
+            Use RIPLFX to find people from across the university and expand your network.</p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+            {% endblock %}
+            </div>
+            <div class="span5">
+            {% block column-2 %}
+                <h2>How?</h2>
+                <p>Ever felt like you're not getting the most out of the Harvard community?
+            Use RIPLFX to find people from across the university and expand your network.</p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+            {% endblock %}
+            </div>
+            <div class="span5">
+            {% block column-3 %}
+                <h2>Why?</h2>
+                <p>Ever felt like you're not getting the most out of the Harvard community?
+            Use RIPLFX to find people from across the university and expand your network.</p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

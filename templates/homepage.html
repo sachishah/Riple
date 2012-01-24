@@ -1,0 +1,32 @@
+{% extends "banner_base.html" %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block banner %}
+    <h1>{% trans "Welcome to RIPLFX" %}</h1>
+    <br/>
+    <br/>
+<div class="row">
+    <div class="span7">
+    <p>
+        {% blocktrans %}
+        Who do you want to meet at Harvard...
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+        We'll help you find them!
+        {% endblocktrans %}
+    </p>
+    </div>
+    <div class="span7">
+        <h2>{% blocktrans %}Get started for free!{% endblocktrans %}</h2>
+        {% block signup %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

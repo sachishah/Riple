@@ -1,0 +1,25 @@
+{% load i18n %}
+{% load bootstrap_tags %}
+{% load ifsetting_tag %}
+{% load account_tags %}
+<ul class="secondary-nav">
+    {% if user.is_authenticated %}
+        <li>
+            <a href="#" class="menu">{{ user }}</a>
+            <ul class="menu-dropdown">
+                <li><a href="{% url acct_email %}">Account</a></li>
+                {% if user.is_staff %}
+                    <li><a href="{% url admin:index %}">Admin</a></li>
+                {% endif %}
+                <li class="divider"></li>
+                <li><a href="{% url acct_logout %}">Log Out</a></li>
+            </ul>
+        </li>
+    {% else %}
+        <li><a class="btn" href="{% url acct_login %}" style="height:20px;padding:5px;margin:10px;margin-top:20px;font-size:14px;">Log In &raquo;</a></li>
+        {% ifsetting ACCOUNT_OPEN_SIGNUP %}
+            <li><p style="margin-top:15px;">or</p></li>
+            <li><a class="btn" href="{% url acct_signup %}"style="height:20px;padding:5px;margin:10px;margin-top:20px;font-size:14px;">Sign Up &raquo;</a></li>
+        {% endifsetting %}
+    {% endif %}
+</ul>
