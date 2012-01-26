@@ -1,4 +1,4 @@
-{% extends "site_base.html" %}
+{% extends "homepage.html" %}
 
 {% load i18n %}
 {% load bootstrap_tags %}
@@ -6,9 +6,7 @@
 
 {% block head_title %}{% trans "Sign Up" %}{% endblock %}
 
-{% block body %}
-    <h1>{% trans "Sign Up" %}</h1>
-    
+{% block signup %}
     {% if user.is_authenticated %}
         <p>{% trans "You are already logged in." %}</p>
     {% else %}
@@ -17,18 +15,50 @@
         <form id="signup_form" method="post" action="{% url acct_signup %}" autocapitalize="off">
             {% csrf_token %}
             <fieldset>
-                {{ form|as_bootstrap }}
+                {% if form.non_field_errors %}
+                    <div class="alert-message block-message error">
+                        <p>
+                            <strong>{{ form_error_title }}</strong>
+                            <ul>
+                                {{ form.non_field_errors|unordered_list }}
+                            </ul>
+                        </p>
+                    </div>
+                {% endif %}
+                {% for field in form %}
+                    {% if field.is_hidden %}
+                        {{ field }}
+                    {% else %}
+                        <div class="clearfix{% if field.errors %} error{% endif %}">
+                            {% if field.label %}
+                                <label for="{{ field.auto_id }}" {% if field.field.required %}class="requiredField"{% endif %}>
+                                    {{ field.label|safe }}
+                                </label>
+                                <div class="input">
+                                    {{ field }}
+                                    {% for error in field.errors %}
+                                        <span class="help-block-inline">{{ error }}</span>
+                                    {% endfor %}
+                                    {% if field.help_text %}
+                                        <span class="help-block">{{ field.help_text|safe }}</span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
             </fieldset>
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
             <div class="actions">
-                <button type="submit" class="btn primary">{% trans "Sign Up" %}</button>
+                <button type="submit" class="btn primary">{% trans "Sign Up &raquo;" %}</button>
             </div>
         </form>
 
         {% ifsetting ACCOUNT_USE_OPENID %}
-        <h2>{% trans "Or sign in with your OpenID" %}:</h2>
+        <p>{% trans "Or sign in with your OpenID" %}:</p>
         <form action="/openid/register/" method="POST" autocapitalize="off">
             {% csrf_token %}
             <fieldset>
@@ -56,9 +86,10 @@
         
         {% url terms as terms_url %}
         {% url privacy as privacy_url %}
-        <p>{% blocktrans %}By clicking "Sign Up", you are indicating that you have read and agree to the <a href="{{ terms_url }}">Terms of Use</a> and <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktrans %}</p>
-        
-        <p>{% blocktrans %}If you have any trouble creating your account, contact us at <a href="mailto:{{ CONTACT_EMAIL }}">{{ CONTACT_EMAIL }}</a>.{% endblocktrans %}</p>
+        <small>By clicking 'Sign Up', you are indicating that you have read and agree to the <a href="{{ terms_url }}">Terms of Use</a> and <a href="{{ privacy_url }}">Privacy Policy.</a>"</small>
+        <br />
+        <br />
+        <small>If you have any trouble creating your account, contact us at <a href="mailto:{{ CONTACT_EMAIL }}">{{ CONTACT_EMAIL }}</a></small>
         
     {% endif %}
 {% endblock %}

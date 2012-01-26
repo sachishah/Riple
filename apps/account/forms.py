@@ -125,6 +125,13 @@ class SignupForm(GroupForm):
         widget = forms.PasswordInput(render_value=False)
     )
     email = forms.EmailField(widget=forms.TextInput())
+
+    college = forms.CharField(
+        label = _("College"),
+        max_length = 30,
+        widget = forms.TextInput()
+    )
+
     confirmation_key = forms.CharField(
         max_length = 40,
         required = False,
@@ -170,8 +177,12 @@ class SignupForm(GroupForm):
         if username is None:
             raise NotImplementedError("SignupForm.create_user does not handle "
                 "username=None case. You must override this method.")
+        if college is None:
+            raise NotImplementedError("SignupForm.create_user does not handle "
+                "college=None case. You must override this method.")
         user.username = username
         user.email = self.cleaned_data["email"].strip().lower()
+        user.college = college
         password = self.cleaned_data.get("password1")
         if password:
             user.set_password(password)
@@ -190,6 +201,7 @@ class SignupForm(GroupForm):
         # don't assume a username is available. it is a common removal if
         # site developer wants to use email authentication.
         username = self.cleaned_data.get("username")
+        college = self.cleaned_data.get("college")
         email = self.cleaned_data["email"]
         
         if self.cleaned_data["confirmation_key"]:
